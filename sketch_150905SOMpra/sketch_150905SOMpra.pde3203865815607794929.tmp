@@ -1,0 +1,71 @@
+int NUM = 10;
+
+color w [][] = new color[NUM][NUM]; //reference vector(map)
+
+void setup() {
+  size(600, 600);
+
+  for (int j = 0; j < NUM; j++) {
+    for (int i = 0; i < NUM; i++) {
+      w[i][j] = color(random(0, 255), random(0, 255), random(0, 255));
+      fill(w[i][j]);
+      rect(i * width / NUM, j * height / NUM, width / NUM, width / NUM);
+      noFill();
+      print(hex(w[i][j]) + " ");
+    }
+    println(" ");
+  }
+
+  println("start");
+}
+
+void draw() {
+  for (int j = 0; j < NUM; j++) {
+    for (int i = 0; i < NUM; i++) {
+      fill(w[i][j]);
+      rect(i * width / NUM, j * height / NUM, width / NUM, width / NUM);
+      noFill();
+    }
+  }
+}
+
+void keyPressed() {
+  println("key pressed");
+  color x; //incoming data vector
+  x = color(random(0, 255), random(0, 255), random(0, 255));
+
+  //search nearest reference vector w
+  int tempI = 0;
+  int tempJ = 0;  
+  float distance = dist(red(w[tempI][tempJ]), green(w[tempI][tempJ]), blue(w[tempI][tempJ]), red(x), green(x), blue(x));
+  println("distance between x and w[tempI][tempJ]: " + distance);
+  for (int j = 0; j < NUM; j++) {
+    for (int i = 0; i < NUM; i++) {
+      float tempDistance;
+      tempDistance = dist(red(w[i][j]), green(w[i][j]), blue(w[i][j]), red(x), green(x), blue(x));
+      if (tempDistance < distance) {
+        tempI = i;
+        tempJ = j;
+        distance = tempDistance;
+      }
+    }
+  }
+  println("nearest vector i: " + tempI + " j: " + tempJ + " distance:" + distance);
+  
+  //exposure process
+  color pastW;
+  float h; //ratio of merging the incoming vector
+  pastW = w[tempI][tempJ];
+  h = 0.3; 
+  w[tempI][tempJ] = (1 - h) * pastW + h * x;
+}
+
+
+void mouseClicked() {
+  println("mouse clicked");
+  for (int j = 0; j < NUM; j++) {
+    for (int i = 0; i < NUM; i++) {
+      w[i][j] = color(random(0, 255), random(0, 255), random(0, 255));
+    }
+  }
+}
