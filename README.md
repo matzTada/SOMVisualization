@@ -1,4 +1,4 @@
-#SOMVisualization
+# SOMVisualization
 Self Organized Map is one of the clustering approaches. This is visualization for understanding.  
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=sY0sSYto9ew
